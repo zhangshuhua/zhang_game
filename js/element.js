@@ -1,7 +1,7 @@
 /**
  * Created by zsh7040 on 2017-8-31.
  */
-class img_element {
+class Element {
     constructor(context, img, x, y) {
         this.context = context;
         this.img = img;
@@ -41,5 +41,37 @@ class img_element {
         this.update();
         this.context.drawImage(this.img, this.x, this.y);
     }
+
+    /**
+     * 该方法适合做final函数
+     */
+    rectCollided(other) {
+        return this.rectAinB(other)||other.rectAinB(this);
+    }
+
+    /**
+     * private 方法,判断矩形相交的一种情况
+     * @param other
+     * @returns {boolean}
+     */
+    rectAinB(other) {
+        var x = other.x;
+        var y = other.y;
+        var width = other.width;
+        var height = other.height;
+
+        if (y > this.y && y < (this.y + this.height)) {
+            if ((x > this.x && x < this.x + this.width) ||
+                (x + width > this.x && x + width < this.x + this.width)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+    }
+
 
 }
