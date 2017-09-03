@@ -2,30 +2,25 @@
  * Created by zsh7040 on 2017-8-31.
  */
 class Element {
-    constructor(context, img, x, y) {
-        this.context = context;
+    constructor(scene, img, x, y) {
+        this.scene = scene;
+        this.context = scene.context;
         this.img = img;
         this.x = x || 100;
         this.y = y || 200;
         this.width = img.width;
         this.height = img.height;
-        context.drawImage(this.img, this.x, this.y);
+
+        this.scene.elements.push(this);
+
+        this.context.drawImage(this.img, this.x, this.y);
     }
 
-    move_left() {
-        log('move-left',this.x);
-        this.x -= 2;
-    };
-
-    move_right() {
-        this.x += 2;
-    };
-
     registerAction(type,key,call){
-        var self = this;
+        var _this = this;
         document.addEventListener(type,function (event) {
             if(event.key == key){
-                call.apply(self);
+                call.apply(_this);
             }
         });
     }
@@ -73,5 +68,13 @@ class Element {
 
     }
 
+    /**
+     * 消失
+     */
+    die(){
+        var elements = this.scene.elements;
+        var index = elements.indexOf(this);
+        this.scene.elements = elements.splice(index,1);
+    }
 
 }

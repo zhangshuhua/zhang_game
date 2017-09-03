@@ -37,10 +37,13 @@
         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
         <script src="js/plugins.js"></script>
-        <script src="js/main.js"></script>
         <script src="js/util.js"></script>
         <script src="js/element.js"></script>
         <script src="js/ball.js"></script>
+        <script src="js/paddle.js"></script>
+        <script src="js/scene.js"></script>
+        <script src="js/game.js"></script>
+        <!--<script src="js/main.js"></script>-->
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
@@ -57,13 +60,14 @@
             var _main = function () {
 //                alert(1);
                 var context = $('canvas')[0].getContext('2d');
+                var mainScene = new Scene(context);
                 var img = new Image();
                 img.src = 'img/paddle.png';
                 var x = 120;
                 var y = 200;
                 var paddle;
                 img.onload = function () {
-                    paddle = new Element(context,img,x,y);
+                    paddle = new Paddle(mainScene,img,x,y);
                     paddle.registerAction('keydown','a',paddle.move_left);
                     paddle.registerAction('keydown','d',paddle.move_right);
                 };
@@ -73,15 +77,16 @@
                 ballImg.src = 'img/ball.png';
                 var ball;
                 ballImg.onload = function () {
-                    ball = new Ball(context,ballImg,50,100);
+                    ball = new Ball(mainScene,ballImg,50,100);
                 };
 
                 setInterval(function () {
 
                     context.clearRect(0,0,600,400);
-                    paddle.draw();
-//                    log('ball',ball)
-                    ball.draw();
+//                    paddle.draw();
+////                    log('ball',ball)
+//                    ball.draw();
+                    mainScene.draw();
                     if(ball.rectCollided(paddle)){
                         ball.bounceY();
                     }
@@ -93,6 +98,7 @@
                     }
 
                 },50);
+
 
             };
             _main();

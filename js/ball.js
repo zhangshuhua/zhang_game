@@ -2,8 +2,8 @@
  * Created by zsh7040 on 2017-8-31.
  */
 class Ball extends Element{
-    constructor(context, img, x, y) {
-        super(context, img, x, y);
+    constructor(scene, img, x, y) {
+        super(scene, img, x, y);
         this.speedX = 5;
         this.speedY  = 5;
     }
@@ -31,6 +31,8 @@ class Ball extends Element{
     YwallCollided(){
         return this.y<0 || this.y >400;
     }
+
+
 
 
 }
