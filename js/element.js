@@ -16,11 +16,11 @@ class Element {
         this.context.drawImage(this.img, this.x, this.y);
     }
 
-    registerAction(type,key,call){
+    registerAction(type,key,func){
         var _this = this;
         document.addEventListener(type,function (event) {
             if(event.key == key){
-                call.apply(_this);
+                func.apply(_this);
             }
         });
     }

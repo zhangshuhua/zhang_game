@@ -57,6 +57,10 @@
 
 
         <script>
+            $('.category-header').click(function(){
+                $(this).next().slideDown().parent().siblings().children('div.category-container').slideUp();
+            });
+
             var _main = function () {
 //                alert(1);
                 var context = $('canvas')[0].getContext('2d');
