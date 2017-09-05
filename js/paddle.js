@@ -9,8 +9,15 @@ class Paddle extends Element{
     }
 
     init(){
+        this.initKeyEvent();
+
+    }
+
+    initKeyEvent(){
         this.registerAction('keydown','a',this.move_left);
         this.registerAction('keydown','d',this.move_right);
+        this.registerAction('keydown','+',this.speedUp);
+        this.registerAction('keydown','-',this.speedDown);
     }
 
     move_left() {
@@ -26,10 +33,6 @@ class Paddle extends Element{
             this.x = this.scene.width-this.width;
         }
     };
-
-    setSpeed(speed){
-        this.speed = speed;
-    }
 
     speedUp(){
         this.speed++;

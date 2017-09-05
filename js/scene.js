@@ -6,17 +6,39 @@ class Scene{
         this.context = context;
         this.width = this.context.canvas.clientWidth;
         this.height = this.context.canvas.clientHeight;
-        this.elements = [];
+        this.elements = {
+            paddle:[],
+            ball:[],
+            block:[],
+        };
     }
 
+    update(){
+        var blocks = this.elements.block;
+        if(blocks.length===0){
+            for(var i = 0;i<10;i++){
+                var x = random(0,550);
+                var y = random(0,100);
+                var block = new Block(this,'img/block.png',x,y);
+                this.addElement(block);
+            }
+        }
+    }
+
+
     draw(){
-        for (var e of this.elements){
-            e.draw();
+        this.update();
+        var types = Object.keys(this.elements);
+        for(var type of types){
+            for (var e of this.elements[type]){
+                e.draw();
+            }
         }
     }
 
     addElement(element){
-        this.elements.push(element);
+        var type = element.constructor.name.toLowerCase();
+        this.elements[type].push(element);
         return this;
     }
 }

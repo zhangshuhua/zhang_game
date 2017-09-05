@@ -6,12 +6,17 @@ class Ball extends Element{
         super(scene, img, x, y);
         this.speedX = 5;
         this.speedY  = 5;
+        this.init();
+    }
+
+    init(){
     }
 
     move(){
         this.x += this.speedX;
         this.y += this.speedY;
     }
+
 
     update(){
         this.move();
@@ -21,7 +26,8 @@ class Ball extends Element{
         if(this.XwallCollided()){
             this.bounceX();
         }
-        this.collidElements(this.scene.elements)
+        this.collidBlock(this.scene.elements.block);
+        this.collidPaddle(this.scene.elements.paddle);
     }
 
     bounceY(){
@@ -39,17 +45,21 @@ class Ball extends Element{
         return this.y<0 || this.y >this.scene.height;
     }
 
-    collidElements(elements){
-        for (var e of elements){
+    collidBlock(blocks){
+        for (var e of blocks){
+            //这里虽然block已经在scene中的element是没有了，但是block这个元素还是存在的，因此block需要加入属性alive
+            if(this.rectCollided(e)&& e.alive){
+                this.bounceY();
+                e.die();
+            }
+        }
+    }
+
+    collidPaddle(paddles){
+        for (var e of paddles){
             //这里虽然block已经在scene中的element是没有了，但是block这个元素还是存在的，因此block需要加入属性alive
             if(this.rectCollided(e)){
-                if(e instanceof Block && e.alive){
-                    this.bounceY();
-                    e.die();
-                }
-                else if(e instanceof Paddle){
-                    this.bounceY();
-                }
+                this.bounceY();
             }
         }
     }

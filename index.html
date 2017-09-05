@@ -27,6 +27,7 @@
         <!-- Add your site or application content here -->
         <p>坚持遇见更好的自己</p>
         <canvas width="600" height="400"></canvas>
+        <div id="game-score">  </div>
 
         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
@@ -48,17 +49,19 @@
 
                 var context = $('canvas')[0].getContext('2d');
                 var mainScene = new Scene(context);
+                var game = new Game(mainScene);
 
-                var paddle = new Paddle(mainScene,'img/paddle.png',80,300);
+                var paddle = new Paddle(mainScene,'img/paddle.png',80,385);
                 var ball = new Ball(mainScene,'img/ball.png',50,100);
-                var block = new Block(mainScene,'img/block.png',10,0);
-                var block1 = new Block(mainScene,'img/block.png',80,0);
-                var block2 = new Block(mainScene,'img/block.png',120,0);
-                var block3 = new Block(mainScene,'img/block.png',160,0);
-                var block4 = new Block(mainScene,'img/block.png',200,0);
-                var block5 = new Block(mainScene,'img/block.png',240,0);
-                var block6 = new Block(mainScene,'img/block.png',280,0);
-                var block4 = new Block(mainScene,'img/block.png',320,0);
+                mainScene.addElement(paddle)
+                    .addElement(ball);
+
+                for(var i = 0;i<10;i++){
+                    var x = random(0,550);
+                    var y = random(0,60);
+                    var block = new Block(mainScene,'img/block.png',x,y);
+                    mainScene.addElement(block);
+                }
 
 
 
@@ -66,9 +69,11 @@
 
                     context.clearRect(0,0,600,400);
 
-                    mainScene.draw();
+                    game.scene.draw();
 
-                },30);
+                    $('#game-score').text(game.score);
+
+                },10);
             };
             _main();
         </script>

@@ -5,7 +5,7 @@ class Element {
     constructor(scene, imgPath, x, y) {
 
         this.scene = scene;
-        this.img;
+        this.imgPath = imgPath;
         this.x = x || 0;
         this.y = y || 0;
         this.width;
@@ -19,12 +19,12 @@ class Element {
         img.src = imgPath;
         img.onload = function () {
             _this.scene.context.drawImage(img, _this.x, _this.y);
-            _this.scene.elements.push(_this);
             _this.width = img.width;
             _this.height = img.height;
         };
         this.img = img;
     }
+
 
     /**
      * 给元素注册事件
@@ -42,16 +42,22 @@ class Element {
     }
 
     /**
+     * 运动状态中的判断事件
      * 抽象函数，子类覆盖
      */
     update(){
 
     }
 
+    /**
+     * 显示元素
+     */
     draw() {
         this.update();
         this.scene.context.drawImage(this.img, this.x, this.y);
     }
+
+
 
     /**
      * 该方法适合做final函数

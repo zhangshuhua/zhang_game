@@ -4,6 +4,8 @@
 class Game{
     constructor(scene){
         this.scene = scene;
+        this.score = 0;
+        this.scene.game = this;
     }
 
     replaceScene(scene){
