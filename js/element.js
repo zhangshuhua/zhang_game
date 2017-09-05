@@ -2,20 +2,36 @@
  * Created by zsh7040 on 2017-8-31.
  */
 class Element {
-    constructor(scene, img, x, y) {
+    constructor(scene, imgPath, x, y) {
+
         this.scene = scene;
-        this.context = scene.context;
-        this.img = img;
-        this.x = x || 100;
-        this.y = y || 200;
-        this.width = img.width;
-        this.height = img.height;
-
-        this.scene.elements.push(this);
-
-        this.context.drawImage(this.img, this.x, this.y);
+        this.img;
+        this.x = x || 0;
+        this.y = y || 0;
+        this.width;
+        this.height;
+        this.imgFromPath(imgPath);
     }
 
+    imgFromPath(imgPath){
+        var _this = this;
+        var img = new Image();
+        img.src = imgPath;
+        img.onload = function () {
+            _this.scene.context.drawImage(img, _this.x, _this.y);
+            _this.scene.elements.push(_this);
+            _this.width = img.width;
+            _this.height = img.height;
+        };
+        this.img = img;
+    }
+
+    /**
+     * 给元素注册事件
+     * @param type 事件类型
+     * @param key 按键
+     * @param func 函数
+     */
     registerAction(type,key,func){
         var _this = this;
         document.addEventListener(type,function (event) {
@@ -34,14 +50,14 @@ class Element {
 
     draw() {
         this.update();
-        this.context.drawImage(this.img, this.x, this.y);
+        this.scene.context.drawImage(this.img, this.x, this.y);
     }
 
     /**
      * 该方法适合做final函数
      */
     rectCollided(other) {
-        return this.rectAinB(other)||other.rectAinB(this);
+        return this._rectAinB(other)||other._rectAinB(this);
     }
 
     /**
@@ -49,11 +65,11 @@ class Element {
      * @param other
      * @returns {boolean}
      */
-    rectAinB(other) {
+    _rectAinB(other) {
         var x = other.x;
         var y = other.y;
         var width = other.width;
-        var height = other.height;
+        // var height = other.height;
 
         if (y > this.y && y < (this.y + this.height)) {
             if ((x > this.x && x < this.x + this.width) ||
@@ -68,13 +84,6 @@ class Element {
 
     }
 
-    /**
-     * 消失
-     */
-    die(){
-        var elements = this.scene.elements;
-        var index = elements.indexOf(this);
-        this.scene.elements = elements.splice(index,1);
-    }
+
 
 }

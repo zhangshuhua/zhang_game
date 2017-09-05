@@ -4,8 +4,6 @@
 var log = console.log.bind(console);
 
 /**
- *
+ * 加载图片元素
  */
-let rectCollide = function () {
 
-}

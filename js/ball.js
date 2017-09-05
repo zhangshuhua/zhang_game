@@ -15,6 +15,13 @@ class Ball extends Element{
 
     update(){
         this.move();
+        if(this.YwallCollided()){
+            this.bounceY();
+        }
+        if(this.XwallCollided()){
+            this.bounceX();
+        }
+        this.collidElements(this.scene.elements)
     }
 
     bounceY(){
@@ -26,12 +33,26 @@ class Ball extends Element{
     }
 
     XwallCollided(){
-        return this.x<0 || this.x >600;
+        return this.x<0 || this.x >this.scene.width;
     }
     YwallCollided(){
-        return this.y<0 || this.y >400;
+        return this.y<0 || this.y >this.scene.height;
     }
 
+    collidElements(elements){
+        for (var e of elements){
+            //这里虽然block已经在scene中的element是没有了，但是block这个元素还是存在的，因此block需要加入属性alive
+            if(this.rectCollided(e)){
+                if(e instanceof Block && e.alive){
+                    this.bounceY();
+                    e.die();
+                }
+                else if(e instanceof Paddle){
+                    this.bounceY();
+                }
+            }
+        }
+    }
 
 
 
