@@ -31,51 +31,22 @@
 
         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
-        <script src="js/plugins.js"></script>
         <script src="js/util.js"></script>
-        <script src="js/element.js"></script>
-        <script src="js/ball.js"></script>
-        <script src="js/paddle.js"></script>
-        <script src="js/block.js"></script>
-        <script src="js/scene.js"></script>
+
+        <!--游戏元素-->
+        <script src="js/element/element.js"></script>
+        <script src="js/element/ball.js"></script>
+        <script src="js/element/paddle.js"></script>
+        <script src="js/element/block.js"></script>
+
+        <!--场景-->
+        <script src="js/scene/scene.js"></script>
+        <script src="js/scene/main_scene.js"></script>
+        <script src="js/scene/end_scene.js"></script>
+
+
         <script src="js/game.js"></script>
-        <!--<script src="js/main.js"></script>-->
+        <script src="js/main.js"></script>
 
-
-
-        <script>
-
-            var _main = function () {
-
-                var context = $('canvas')[0].getContext('2d');
-                var mainScene = new Scene(context);
-                var game = new Game(mainScene);
-
-                var paddle = new Paddle(mainScene,'img/paddle.png',80,385);
-                var ball = new Ball(mainScene,'img/ball.png',50,100);
-                mainScene.addElement(paddle)
-                    .addElement(ball);
-
-                for(var i = 0;i<10;i++){
-                    var x = random(0,550);
-                    var y = random(0,60);
-                    var block = new Block(mainScene,'img/block.png',x,y);
-                    mainScene.addElement(block);
-                }
-
-
-
-                setInterval(function () {
-
-                    context.clearRect(0,0,600,400);
-
-                    game.scene.draw();
-
-                    $('#game-score').text(game.score);
-
-                },10);
-            };
-            _main();
-        </script>
     </body>
 </html>

@@ -2,6 +2,9 @@
  * Created by zhang on 2017/9/3.
  */
 class Block extends Element{
+    /**
+     * width 40 ; height 20;
+     */
     constructor(scene, img, x, y){
         super(scene,img,x,y);
         this.alive = true;
@@ -9,9 +12,11 @@ class Block extends Element{
     }
 
     init(){
+        this.initShow();
     }
 
     update(){
+
     }
 
     draw(){
@@ -30,10 +35,6 @@ class Block extends Element{
         this._remove();
     }
 
-    add(){
-        new Block(this.scene,this.imgPath,this.x,this.y);
-    }
-
     /**
      * 在scene的元素中移除
      */
@@ -43,5 +44,18 @@ class Block extends Element{
         if(index!==-1){
             blocks.splice(index,1);
         }
+    }
+
+    /**
+     * 将block可以网格化显示,对齐显示
+     */
+    initShow(){
+        var tile = {
+            width : 40,
+            height : 20,
+        };
+        //对齐显示
+        this.x = (Math.floor(this.x/tile.width))*tile.width;
+        this.y = (Math.floor(this.y/tile.height))*tile.height;
     }
 }

@@ -5,11 +5,10 @@ class Element {
     constructor(scene, imgPath, x, y) {
 
         this.scene = scene;
-        this.imgPath = imgPath;
         this.x = x || 0;
         this.y = y || 0;
-        this.width;
-        this.height;
+        this.width = 0;
+        this.height = 0;
         this.imgFromPath(imgPath);
     }
 
@@ -18,7 +17,6 @@ class Element {
         var img = new Image();
         img.src = imgPath;
         img.onload = function () {
-            _this.scene.context.drawImage(img, _this.x, _this.y);
             _this.width = img.width;
             _this.height = img.height;
         };
@@ -63,31 +61,8 @@ class Element {
      * 该方法适合做final函数
      */
     rectCollided(other) {
-        return this._rectAinB(other)||other._rectAinB(this);
-    }
-
-    /**
-     * private 方法,判断矩形相交的一种情况
-     * @param other
-     * @returns {boolean}
-     */
-    _rectAinB(other) {
-        var x = other.x;
-        var y = other.y;
-        var width = other.width;
-        // var height = other.height;
-
-        if (y > this.y && y < (this.y + this.height)) {
-            if ((x > this.x && x < this.x + this.width) ||
-                (x + width > this.x && x + width < this.x + this.width)) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-
+        return isCollisionWithRect(this.x,this.y,this.width,this.height,
+                    other.x,other.y,other.width,other.height);
     }
 
 

@@ -2,6 +2,7 @@
  * Created by zhang on 2017/9/3.
  */
 class Paddle extends Element{
+
     constructor(scene, img, x, y) {
         super(scene, img, x, y);
         this.speed = 15;
@@ -10,7 +11,6 @@ class Paddle extends Element{
 
     init(){
         this.initKeyEvent();
-
     }
 
     initKeyEvent(){
@@ -41,4 +41,27 @@ class Paddle extends Element{
     speedDown(){
         this.speed--;
     }
+
+    addGun(){
+        var _this = this;
+        var gunimg = new Image();
+        gunimg.src = 'img/gun.png';
+        var gun ;
+        gunimg.onload = function () {
+            log(gunimg.width);
+            gun.width = gunimg.width;
+            gun.height = gunimg.height;
+            gun.x = _this.x;
+            gun.y = _this.y - _this.height;
+            _this.scene.addElement(gun);
+        };
+
+
+
+        /*if(typeof gun.width !== 'undefined'){
+
+
+        }*/
+    }
+
 }

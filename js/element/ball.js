@@ -20,14 +20,17 @@ class Ball extends Element{
 
     update(){
         this.move();
-        if(this.YwallCollided()){
+        if(this.isCollidBottom()){
+            //game over
+            this.scene.game.over();
+        }else if(this.isCollidTop()){
             this.bounceY();
-        }
-        if(this.XwallCollided()){
+        }else if(this.isCollidXWall()){
             this.bounceX();
+        }else {
+            this.collidBlock(this.scene.elements.block);
+            this.collidPaddle(this.scene.elements.paddle);
         }
-        this.collidBlock(this.scene.elements.block);
-        this.collidPaddle(this.scene.elements.paddle);
     }
 
     bounceY(){
@@ -38,11 +41,15 @@ class Ball extends Element{
         this.speedX *= -1;
     }
 
-    XwallCollided(){
-        return this.x<0 || this.x >this.scene.width;
+    //TODO 打到角落会有bug
+    isCollidXWall(){
+        return this.x<=0 || this.x +this.width >=this.scene.width;
     }
-    YwallCollided(){
-        return this.y<0 || this.y >this.scene.height;
+    isCollidTop(){
+        return this.y<=0;
+    }
+    isCollidBottom(){
+        return this.y +this.height>=this.scene.height;
     }
 
     collidBlock(blocks){
@@ -63,7 +70,5 @@ class Ball extends Element{
             }
         }
     }
-
-
 
 }
