@@ -2,25 +2,32 @@
  * Created by zsh7040 on 2017-8-31.
  */
 class Element {
-    constructor(scene, imgPath, x, y) {
-
+    constructor(scene, imgPath,x, y ,callback) {
         this.scene = scene;
         this.x = x || 0;
         this.y = y || 0;
         this.width = 0;
         this.height = 0;
-        this.imgFromPath(imgPath);
+        this.callback = callback;
+        this.loadImg(imgPath);
     }
 
-    imgFromPath(imgPath){
+    loadImg(imgPath){
         var _this = this;
         var img = new Image();
         img.src = imgPath;
         img.onload = function () {
             _this.width = img.width;
             _this.height = img.height;
+            _this.callbackFunc(img);
         };
         this.img = img;
+    }
+
+    callbackFunc(img){
+        if(typeof this.callback !== 'undefined'){
+            this.callback.call(this,img);
+        }
     }
 
 

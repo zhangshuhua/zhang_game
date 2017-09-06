@@ -24,6 +24,7 @@ class MainScene extends Scene{
         }
     }
 
+    //TODO 能否用观察者模式，全部通知
     nextLevel(){
         for(var i = 0;i<3;i++){
             var x = random(0,550);
@@ -32,6 +33,11 @@ class MainScene extends Scene{
             this.addElement(block);
         }
         window.fps -= 5;
-        this.elements['paddle'][0].y -=10;
+        var paddle = this.elements['paddle'][0];
+        paddle.addGuns();
+        var offset = -10;
+        paddle.y +=offset;
+        paddle.leftGun.y += offset;
+        paddle.rightGun.y += offset;
     }
 }
