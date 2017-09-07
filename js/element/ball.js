@@ -28,9 +28,15 @@ class Ball extends Element{
             this.scene.game.over();
         }else {
             if(this.isTouchTop()){
+                this.y = 0;
                 this.bounceY();
             }
             if(this.isCollidXWall()){
+                if(this.x > this.scene.width/2){
+                    this.x = this.scene.width - this.width;
+                }else {
+                    this.x = 0;
+                }
                 this.bounceX();
             }else {
                 this.collidBrick(this.scene.elements.brick);
