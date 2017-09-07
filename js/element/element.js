@@ -55,6 +55,7 @@ class Element {
     }
 
     /**
+     * 父类的draw方法，实现最普通的显示功能，子类按需求覆盖
      * 显示元素
      */
     draw() {
@@ -71,7 +72,6 @@ class Element {
         return isCollisionWithRect(this.x,this.y,this.width,this.height,
                     other.x,other.y,other.width,other.height);
     }
-
 
 
 }

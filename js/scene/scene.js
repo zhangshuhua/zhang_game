@@ -9,7 +9,7 @@ class Scene{
         this.elements = {
             // paddle:[],
             // ball:[],
-            // block:[],
+            // brick:[],
         };
     }
     //子类覆盖,但是父类有没有存在的必要呢

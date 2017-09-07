@@ -21,7 +21,7 @@ class Bullet extends Element{
         if(this.isCollidTop()){
             this.die();
         }else {
-            this.collidBlock(this.scene.elements.block);
+            this.collidBrick(this.scene.elements.brick);
         }
     }
 
@@ -29,11 +29,10 @@ class Bullet extends Element{
         return this.y<=0;
     }
 
-    collidBlock(blocks){
-        for (var e of blocks){
-            //这里虽然block已经在scene中的element是没有了，但是block这个元素还是存在的，因此block需要加入属性alive
-            if(this.rectCollided(e)&& e.alive){
-                e.die();
+    collidBrick(bricks){
+        for (var b of bricks){
+            if(this.rectCollided(b)&& b.alive){
+                b.die();
                 this.die();
             }
         }

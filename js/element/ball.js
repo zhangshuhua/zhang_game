@@ -20,16 +20,22 @@ class Ball extends Element{
 
     update(){
         this.move();
-        if(this.isCollidBottom()){
+        if(this.isTouchBottom()&&window.debug){
+            this.bounceY();
+        }else
+        if(this.isTouchBottom()){
             //game over
             this.scene.game.over();
-        }else if(this.isCollidTop()){
-            this.bounceY();
-        }else if(this.isCollidXWall()){
-            this.bounceX();
         }else {
-            this.collidBlock(this.scene.elements.block);
-            this.collidPaddle(this.scene.elements.paddle);
+            if(this.isTouchTop()){
+                this.bounceY();
+            }
+            if(this.isCollidXWall()){
+                this.bounceX();
+            }else {
+                this.collidBrick(this.scene.elements.brick);
+                this.collidPaddle(this.scene.elements.paddle);
+            }
         }
     }
 
@@ -45,27 +51,25 @@ class Ball extends Element{
     isCollidXWall(){
         return this.x<=0 || this.x +this.width >=this.scene.width;
     }
-    isCollidTop(){
+    isTouchTop(){
         return this.y<=0;
     }
-    isCollidBottom(){
+    isTouchBottom(){
         return this.y +this.height>=this.scene.height;
     }
 
-    collidBlock(blocks){
-        for (var e of blocks){
-            //这里虽然block已经在scene中的element是没有了，但是block这个元素还是存在的，因此block需要加入属性alive
-            if(this.rectCollided(e)&& e.alive){
+    collidBrick(bricks){
+        for (let b of bricks){
+            if(b.alive && this.rectCollided(b)){
                 this.bounceY();
-                e.die();
+                b.die();
             }
         }
     }
 
     collidPaddle(paddles){
-        for (var e of paddles){
-            //这里虽然block已经在scene中的element是没有了，但是block这个元素还是存在的，因此block需要加入属性alive
-            if(this.rectCollided(e)){
+        for (let p of paddles){
+            if(this.rectCollided(p)){
                 this.bounceY();
             }
         }

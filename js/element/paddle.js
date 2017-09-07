@@ -1,97 +1,145 @@
 /**
  * Created by zhang on 2017/9/3.
  */
-class Paddle extends Element{
+class Paddle extends Element {
 
-    constructor(scene, img, x, y,callback) {
-        super(scene, img, x, y,callback);
+    constructor(scene, img, x, y, callback) {
+        super(scene, img, x, y, callback);
         this.speed = 15;
-        this.leftGun = null;
-        this.rightGun = null;
+
+        //枪其实就是装备
+        this.leftGun;
+        this.rightGun;
+
+        //TODO paddle 的3种状态,磁性吸附ball,伸长，缩短
+        this.magnetic = false;
+        this.long = false;
+        this.short = false;
+
         this.init();
     }
 
-    init(){
+    init() {
         this.initKeyEvent();
+        this.initGun();
     }
 
-    initKeyEvent(){
-        this.registerAction('keydown','a',this.move_left);
-        this.registerAction('keydown','d',this.move_right);
-        this.registerAction('keydown','+',this.speedUp);
-        this.registerAction('keydown','-',this.speedDown);
+    initGun() {
+        this.leftGun = new Gun(this.scene, 'img/gun.png', 0, 0);
+        this.rightGun = new Gun(this.scene, 'img/gun.png', 0, 0);
+    }
+
+    /**
+     * paddle的装备（枪）与paddle同步
+     */
+    update() {
+        var middleX = this.x + this.width / 2;
+        this.leftGun.x = middleX + this.leftGun.offsetX;
+        this.rightGun.x = middleX + this.rightGun.offsetX;
+        this.leftGun.y = this.rightGun.y = this.y - this.height;
+    }
+
+    /**
+     * paddle的draw方法，需要让装备跟随
+     */
+    draw() {
+        this.update();
+        if (this.leftGun.show) {
+            this.scene.context.drawImage(this.leftGun.img, this.leftGun.x, this.leftGun.y);
+        }
+        if (this.rightGun.show) {
+            this.scene.context.drawImage(this.rightGun.img, this.rightGun.x, this.rightGun.y);
+        }
+        this.scene.context.drawImage(this.img, this.x, this.y);
+    }
+
+    initKeyEvent() {
+        this.registerAction('keydown', 'a', this.move_left);
+        this.registerAction('keydown', 'd', this.move_right);
+        this.registerAction('keydown', 'ArrowLeft', this.move_left);
+        this.registerAction('keydown', 'ArrowRight', this.move_right);
+        this.registerAction('keydown', '+', this.speedUp);
+        this.registerAction('keydown', '-', this.speedDown);
+        this.registerAction('keydown', 'j', this.toggleGuns);
+        this.registerAction('keydown', 'k', this.shoot);
+        this.registerAction('keydown', 'ArrowUp', this.toggleGuns);
+        this.registerAction('keydown', 'Enter', this.shoot);
     }
 
     move_left() {
         this.x -= this.speed;
-        this.leftGun.x -= this.speed;
-        this.rightGun.x -= this.speed;
-        if(this.x<0){
+        if (this.x < 0) {
             this.x = 0;
-            this.leftGun.x = this.x + this.leftGun.offset ;
-            this.rightGun.x = this.x + this.width + this.rightGun.offset;
         }
     };
 
     move_right() {
         this.x += this.speed;
-        this.leftGun.x +=this.speed;
-        this.rightGun.x +=this.speed;
-        if((this.x+this.width)>=this.scene.width){
-            this.x = this.scene.width-this.width;
-            this.leftGun.x = this.x + this.leftGun.offset ;
-            this.rightGun.x = this.x + this.width + this.rightGun.offset;
+        if ((this.x + this.width) >= this.scene.width) {
+            this.x = this.scene.width - this.width;
         }
     };
 
-    stop(){
-
-    }
-
-    speedUp(){
+    speedUp() {
         this.speed++;
     }
 
-    speedDown(){
+    speedDown() {
         this.speed--;
     }
 
-    addLeftGun(){
-        var _this = this;
-        var offset = 3;
-        var callback = function (img) {
-            this.x = _this.x+offset;
-            this.y = _this.y - img.height;
-        };
-        var gun = new Gun(this.scene,'img/gun.png',0,0,callback);
-        gun.offset = offset;
-        gun.paddle = _this;
-        _this.leftGun = gun;
-        _this.scene.addElement(gun);
-        return _this;
-    };
-    addRightGun(){
-        var _this = this;
-        var offset = -8;
-        var callback = function (img) {
-            this.x = _this.x+_this.width+ offset;
-            this.y = _this.y - img.height;
-        };
-        var gun = new Gun(this.scene,'img/gun.png',0,0,callback);
-        gun.offset = offset;
-        gun.paddle = _this;
-        _this.rightGun = gun;
-        _this.scene.addElement(gun);
-        return _this;
+    addLeftGun() {
+        this.leftGun.offsetX = -49;
+        // this.leftGun.offsetY = 2;
+        this.leftGun.show = true;
     };
 
-    addGuns(){
-        this.leftGun = null;
-        this.rightGun = null;
+    addRightGun() {
+        this.rightGun.offsetX = 35;
+        // this.rightGun.offsetY = 2;
+        this.rightGun.show = true;
+    };
+
+    removeLeftGun() {
+        this.leftGun.show = false;
+    };
+
+    removeRightGun() {
+        this.rightGun.show = false;
+    };
+
+
+    addGuns() {
         this.addLeftGun();
         this.addRightGun();
     }
 
+    removeGuns() {
+        this.removeLeftGun();
+        this.removeRightGun();
+    }
+
+    toggleGuns() {
+        if (this.leftGun.show) {
+            this.removeLeftGun();
+        } else {
+            this.addLeftGun()
+        }
+        if (this.rightGun.show) {
+            this.removeRightGun();
+        } else {
+            this.addRightGun();
+        }
+    }
+
+    shoot() {
+        if (this.leftGun.show) {
+            this.leftGun.fire();
+        }
+        if (this.rightGun.show) {
+            this.rightGun.fire();
+        }
+    }
 
 
 }

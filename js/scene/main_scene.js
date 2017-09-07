@@ -4,11 +4,11 @@
 class MainScene extends Scene{
     constructor(context){
         super(context);
+        this.livingPaddle = 0;
     }
 
     update(){
-        var blocks = this.elements.block;
-        if(blocks.length===0){
+        if(this.livingPaddle <=0 ){
             this.nextLevel();
         }
     }
@@ -29,12 +29,12 @@ class MainScene extends Scene{
         for(var i = 0;i<3;i++){
             var x = random(0,550);
             var y = random(0,100);
-            var block = new Block(this,'img/block.png',x,y);
-            this.addElement(block);
+            var brick = new Brick(this,'img/brick.png',x,y);
+            this.addElement(brick);
         }
         window.fps -= 5;
         var paddle = this.elements['paddle'][0];
-        paddle.addGuns();
+
         var offset = -10;
         paddle.y +=offset;
         paddle.leftGun.y += offset;

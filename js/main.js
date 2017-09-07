@@ -1,5 +1,6 @@
 $(function () {
     window.fps = 50;
+    window.debug = false;
 
     var _main = function () {
 
@@ -12,12 +13,15 @@ $(function () {
 
         var ball = new Ball(mainScene,'img/ball.png',0,0);
         mainScene.addElement(paddle).addElement(ball);
-        for(var i = 0;i<5;i++){
-            var x = random(0,550);
-            var y = random(0,100);
-            var block = new Block(mainScene,'img/block.png',x,y);
 
-            mainScene.addElement(block);
+        for(var i = 0;i<30;i++){
+            var x = random(0,550);
+            var y = random(0,200);
+            var index = parseInt(random(0,17));
+            var path = 'img/brick' + index + '.png';
+            var brick = new Brick(mainScene,path,x,y);
+
+            mainScene.addElement(brick);
         }
         start(game);
     };
@@ -26,6 +30,7 @@ $(function () {
         if(!game.pause){
             game.context.clearRect(0,0,600,400);
             game.scene.draw();
+            // log(game.scene.elements);
             $('#game-score').text(game.score);
         }
         setTimeout(function () {
