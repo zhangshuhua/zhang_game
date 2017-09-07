@@ -5,7 +5,7 @@ class Brick extends Element{
     constructor(scene, img, x, y){
         super(scene,img,x,y,initShow);
         this.alive = true;
-        this.scene.livingPaddle++;
+        // this.scene.livingBrick++;
         this.init();
     }
 
@@ -17,33 +17,33 @@ class Brick extends Element{
 
     }
 
-    draw(){
+    /*draw(){
         this.update();
         if(this.alive){
             this.scene.context.drawImage(this.img, this.x, this.y);
         }
-    }
+    }*/
 
     /**
      * 被击中
      */
     die(){
         this.alive = false;
-        this.scene.livingPaddle--;
+        // this.scene.livingBrick--;
         this.scene.game.score += 100;
-        // this._remove(); paddle不需要移除
+        this._remove();
     }
 
     /**
      * 在scene的元素中移除
      */
-    /*_remove(){
+    _remove(){
         var bricks = this.scene.elements.brick;
         var index = bricks.indexOf(this);
         if(index!==-1){
             bricks.splice(index,1);
         }
-    }*/
+    }
 
 }
 
