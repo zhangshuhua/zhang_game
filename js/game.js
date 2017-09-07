@@ -8,11 +8,15 @@ class Game{
         this.scene.game = this;
         this.context = scene.context;
         this.pause = false;
+        this.level = 1;
         this.init();
     }
 
     init(){
         this.initKeyEvent();
+
+        $('#game-score').text(this.score);
+        $('#game-level').text(this.level);
     }
 
     initKeyEvent(){

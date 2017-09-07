@@ -50,7 +50,7 @@ class Paddle extends Element {
         if (this.rightGun.show) {
             this.scene.context.drawImage(this.rightGun.img, this.rightGun.x, this.rightGun.y);
         }
-        this.scene.context.drawImage(this.img, this.x, this.y);
+        this.scene.context.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
     initKeyEvent() {
@@ -64,6 +64,8 @@ class Paddle extends Element {
         this.registerAction('keydown', 'k', this.shoot);
         this.registerAction('keydown', 'ArrowUp', this.toggleGuns);
         this.registerAction('keydown', 'Enter', this.shoot);
+        this.registerAction('keydown', '0', this.enLong);
+        this.registerAction('keydown', '9', this.enShort);
     }
 
     move_left() {
@@ -141,5 +143,21 @@ class Paddle extends Element {
         }
     }
 
+    enLong() {
+        if(this.width< this.scene.width){
+            this.width = this.width + 30;
+            //保证中心不变
+            this.x = this.x - 15;
+        }
+    }
+
+    enShort() {
+        if(this.width>this.img.width/2){
+            this.width = this.width - 30;
+            //保证中心不变
+            this.x = this.x + 15;
+        }
+
+    }
 
 }

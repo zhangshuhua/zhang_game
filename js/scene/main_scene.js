@@ -26,7 +26,11 @@ class MainScene extends Scene{
 
     //TODO 能否用观察者模式，全部通知
     nextLevel(){
-        window.fps -= 1;
+
+        this.game.level ++;
+        $('#game-level').text(this.game.level);
+
+        window.fps -= 2;
 
         for(var i = 0;i<30;i++){
             var x = random(0,550);

@@ -20,23 +20,15 @@ class Ball extends Element{
 
     update(){
         this.move();
-        if(this.isTouchBottom()&&window.debug){
-            this.bounceY();
-        }else
         if(this.isTouchBottom()){
-            //game over
             this.scene.game.over();
         }else {
             if(this.isTouchTop()){
-                this.y = 0;
+                this.resetEdgeY();
                 this.bounceY();
             }
             if(this.isCollidXWall()){
-                if(this.x > this.scene.width/2){
-                    this.x = this.scene.width - this.width;
-                }else {
-                    this.x = 0;
-                }
+                this.resetEdgeX();
                 this.bounceX();
             }else {
                 this.collidBrick(this.scene.elements.brick);
@@ -51,6 +43,18 @@ class Ball extends Element{
 
     bounceX(){
         this.speedX *= -1;
+    }
+
+    resetEdgeX(){
+        if(this.x > this.scene.width/2){
+            this.x = this.scene.width - this.width;
+        }else {
+            this.x = 0;
+        }
+    }
+
+    resetEdgeY(){
+        this.y = 0;
     }
 
     //TODO 打到角落会有bug
@@ -69,6 +73,7 @@ class Ball extends Element{
             if(b.alive && this.rectCollided(b)){
                 this.bounceY();
                 b.die();
+                // break;
             }
         }
     }

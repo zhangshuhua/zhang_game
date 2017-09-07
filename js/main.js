@@ -9,7 +9,7 @@ $(function () {
 
         var game = new Game(mainScene);
 
-        var paddle = new Paddle(mainScene,'img/paddle.png',80,383);
+        var paddle = new Paddle(mainScene,'img/paddle.png',250,383);
 
         var ball = new Ball(mainScene,'img/ball.png',0,0);
         mainScene.addElement(paddle).addElement(ball);
@@ -23,6 +23,8 @@ $(function () {
 
             mainScene.addElement(brick);
         }
+
+
         start(game);
     };
 
@@ -31,7 +33,7 @@ $(function () {
             game.context.clearRect(0,0,600,400);
             game.scene.draw();
             // log(game.scene.elements);
-            $('#game-score').text(game.score);
+
         }
         setTimeout(function () {
             start(game);

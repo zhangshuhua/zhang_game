@@ -31,6 +31,7 @@ class Brick extends Element{
         this.alive = false;
         // this.scene.livingBrick--;
         this.scene.game.score += 100;
+        $('#game-score').text(this.scene.game.score);
         this._remove();
     }
 

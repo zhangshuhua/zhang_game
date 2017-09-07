@@ -17,7 +17,7 @@ class Element {
         var img = new Image();
         img.src = imgPath;
         img.onload = function () {
-            _this.width = img.width;
+            _this.width = img.width ;
             _this.height = img.height;
             _this.callbackFunc(img);
         };
