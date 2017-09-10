@@ -1,89 +1,122 @@
 /**
  * Created by zsh7040 on 2017-8-31.
  */
-class Ball extends Element{
+class Ball extends Element {
+
     constructor(scene, img, x, y) {
         super(scene, img, x, y);
-        this.speedX = 5;
-        this.speedY  = 5;
+        this.speedX = 4;
+        this.speedY = 4;
         this.init();
     }
 
-    init(){
+    init() {
     }
 
-    move(){
+    move() {
         this.x += this.speedX;
         this.y += this.speedY;
     }
 
 
-    update(){
+    update() {
         this.move();
-        if(this.isTouchBottom()){
-            this.scene.game.over();
-        }else {
-            if(this.isTouchTop()){
+        if (this.isTouchBottom()) {
+            // this.scene.game.over();
+            this.bounceY();
+        } else {
+            if (this.isTouchTop()) {
                 this.resetEdgeY();
                 this.bounceY();
             }
-            if(this.isCollidXWall()){
+            if (this.isCollidXWall()) {
                 this.resetEdgeX();
                 this.bounceX();
-            }else {
+            } else {
                 this.collidBrick(this.scene.elements.brick);
-                this.collidPaddle(this.scene.elements.paddle);
+                this.collidPaddle(this.scene.elements.paddle[0]);
             }
         }
     }
 
-    bounceY(){
+    bounceY() {
         this.speedY *= -1;
     }
 
-    bounceX(){
+    bounceX() {
         this.speedX *= -1;
     }
+    bounceXY(normal){
+       var inVec = new Victor(this.speedX,this.speedY);
+       var result = reflectVec(inVec,normal);
+       this.speedX = result.x;
+       this.speedY = result.y;
+    }
 
-    resetEdgeX(){
-        if(this.x > this.scene.width/2){
+    resetEdgeX() {
+        if (this.x > this.scene.width / 2) {
             this.x = this.scene.width - this.width;
-        }else {
+        } else {
             this.x = 0;
         }
     }
 
-    resetEdgeY(){
+    resetEdgeY() {
         this.y = 0;
     }
 
-    //TODO 打到角落会有bug
-    isCollidXWall(){
-        return this.x<=0 || this.x +this.width >=this.scene.width;
-    }
-    isTouchTop(){
-        return this.y<=0;
-    }
-    isTouchBottom(){
-        return this.y +this.height>=this.scene.height;
+    isCollidXWall() {
+        return this.x <= 0 || this.x + this.width >= this.scene.width;
     }
 
-    collidBrick(bricks){
-        for (let b of bricks){
-            if(b.alive && this.rectCollided(b)){
-                this.bounceY();
-                b.die();
-                // break;
+    isTouchTop() {
+        return this.y <= 0;
+    }
+
+    isTouchBottom() {
+        return this.y + this.height >= this.scene.height;
+    }
+
+    collidBrick(bricks) {
+        for (let b of bricks) {
+            if (b.alive) {
+                var angle = this.rectCollided(b);
+                if(angle){
+                    this.bounceXY(angle);
+                    b.die();
+                    break;
+                }
             }
         }
     }
 
-    collidPaddle(paddles){
-        for (let p of paddles){
-            if(this.rectCollided(p)){
-                this.bounceY();
-            }
+    collidPaddle(paddles) {
+            var angle = this.rectCollided(paddles);
+            if (angle) {
+                this.bounceXY(angle);
         }
+    }
+
+    rectCollided(rect) {
+        var center = {
+            x: this.x + this.width / 2,
+            y: this.y + this.height / 2
+        };
+
+        var centerOfRect = {
+            x: rect.x + rect.width / 2,
+            y: rect.y + rect.height / 2,
+        };
+
+        var rightTopOfRect = {
+            x: rect.x + rect.width,
+            y: rect.y,
+        };
+
+        var r = this.width / 2;
+
+        return circleInRect(centerOfRect, rightTopOfRect, center, r);
     }
 
 }
+

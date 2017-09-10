@@ -4,11 +4,11 @@
 class MainScene extends Scene{
     constructor(context){
         super(context);
-        // this.livingBrick = 0;
+        this.livingBrick = 0;
     }
 
     update(){
-        if(this.elements.brick.length <=0 ){
+        if(this.livingBrick <=0 ){
             this.nextLevel();
         }
     }
@@ -26,11 +26,10 @@ class MainScene extends Scene{
 
     //TODO 能否用观察者模式，全部通知
     nextLevel(){
+        this.resetState();
 
         this.game.level ++;
         $('#game-level').text(this.game.level);
-
-        window.fps -= 2;
 
         for(var i = 0;i<30;i++){
             var x = random(0,550);
@@ -42,5 +41,15 @@ class MainScene extends Scene{
             this.addElement(brick);
         }
 
+    }
+
+    resetState(){
+        if(this.elements.brick.length > 0){
+            this.elements.brick.length = 0;
+        }
+        //ball归位，应当在paddle中央
+
+        //加快小球速度
+        window.fps -= 2;
     }
 }
