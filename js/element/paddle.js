@@ -12,7 +12,7 @@ class Paddle extends Element {
         this.rightGun;
 
         //TODO paddle 的3种状态,磁性吸附ball,伸长，缩短
-        this.magnetic = false;
+        // this.magnetic = false;
         this.long = false;
         this.short = false;
 
@@ -29,14 +29,33 @@ class Paddle extends Element {
         this.rightGun = new Gun(this.scene, 'img/gun.png', 0, 0);
     }
 
+    setAutoShoot() {
+        this.leftGun.setAuto();
+        this.rightGun.setAuto();
+    }
+
+    update() {
+        this.fellowGun();
+        this.autoShoot();
+    }
+
     /**
      * paddle的装备（枪）与paddle同步
      */
-    update() {
+    fellowGun() {
         var middleX = this.x + this.width / 2;
         this.leftGun.x = middleX + this.leftGun.offsetX;
         this.rightGun.x = middleX + this.rightGun.offsetX;
         this.leftGun.y = this.rightGun.y = this.y - this.height;
+    }
+
+    autoShoot() {
+        if (this.leftGun.show && this.leftGun.auto) {
+            this.leftGun.autoFire();
+        }
+        if (this.rightGun.show && this.leftGun.auto) {
+            this.rightGun.autoFire();
+        }
     }
 
     /**
@@ -60,9 +79,8 @@ class Paddle extends Element {
         this.registerAction('keydown', 'ArrowRight', this.move_right);
         this.registerAction('keydown', '+', this.speedUp);
         this.registerAction('keydown', '-', this.speedDown);
-        this.registerAction('keydown', 'j', this.toggleGuns);
-        this.registerAction('keydown', 'k', this.shoot);
         this.registerAction('keydown', 'ArrowUp', this.toggleGuns);
+        this.registerAction('keydown', 'ArrowDown', this.removeGuns);
         this.registerAction('keydown', 'Enter', this.shoot);
         this.registerAction('keydown', '0', this.enLong);
         this.registerAction('keydown', '9', this.enShort);
@@ -123,12 +141,12 @@ class Paddle extends Element {
 
     toggleGuns() {
         if (this.leftGun.show) {
-            this.removeLeftGun();
+            this.setAutoShoot();
         } else {
             this.addLeftGun()
         }
         if (this.rightGun.show) {
-            this.removeRightGun();
+            this.setAutoShoot();
         } else {
             this.addRightGun();
         }
@@ -144,7 +162,7 @@ class Paddle extends Element {
     }
 
     enLong() {
-        if(this.width< this.scene.width){
+        if (this.width < this.scene.width) {
             this.width = this.width + 30;
             //保证中心不变
             this.x = this.x - 15;
@@ -152,7 +170,7 @@ class Paddle extends Element {
     }
 
     enShort() {
-        if(this.width>this.img.width/2){
+        if (this.width > this.img.width / 2) {
             this.width = this.width - 30;
             //保证中心不变
             this.x = this.x + 15;

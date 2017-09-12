@@ -28,7 +28,7 @@ class Bullet extends Element{
     collidBrick(bricks){
         //倒叙循环,保证重叠的砖块可以看出消失效果
         for (var i = bricks.length - 1; i >= 0; i--) {
-            let b = bricks(i);
+            let b = bricks[i];
             if(b.alive && this.collideRect(b)){
                 b.die();
                 this.die();
