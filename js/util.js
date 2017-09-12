@@ -63,7 +63,8 @@ var reflectVec = function (inVec, normal) {
     var vec2 = normal.normalize();
     var a = vec1.dot(vec2);
     var c = vec2.clone().multiplyScalar(2 * a);
-    return vec1.subtract(c)
+    let victor = vec1.subtract(c);
+    return victor
 };
 
 /**
@@ -83,7 +84,8 @@ function ComputeCollision(w, h, r, rx, ry) {
     var dy1 = Math.max(dy, -h * 0.5);
     if((dx1 - rx) * (dx1 - rx) + (dy1 - ry) * (dy1 - ry) <= r * r){
         //返回法线向量
-        return new Victor(dx1 - rx,dy1 - ry);
+        var u = new Victor(dx1 - rx,dy1 - ry);
+        return u
     }else {
         return false;
     }

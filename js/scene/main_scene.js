@@ -4,6 +4,7 @@
 class MainScene extends Scene{
     constructor(context){
         super(context);
+        this.backgroud;
         this.livingBrick = 0;
     }
 

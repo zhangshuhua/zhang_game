@@ -6,7 +6,7 @@ class Gun extends Element {
         super(scene, img, x, y, callback);
         this.CDTime = this.CDTime||15;
         this.show = false;
-        this.auto = false;
+        this.auto = true;
         this.bullet;
         this.init();
     }

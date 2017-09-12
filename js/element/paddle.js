@@ -12,7 +12,7 @@ class Paddle extends Element {
         this.rightGun;
 
         //TODO paddle 的3种状态,磁性吸附ball,伸长，缩短
-        // this.magnetic = false;
+        this.magnetic = false;
         this.long = false;
         this.short = false;
 
@@ -122,10 +122,12 @@ class Paddle extends Element {
 
     removeLeftGun() {
         this.leftGun.show = false;
+        this.leftGun.auto = false;
     };
 
     removeRightGun() {
         this.rightGun.show = false;
+        this.rightGun.auto = false
     };
 
 

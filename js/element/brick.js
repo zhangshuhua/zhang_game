@@ -5,6 +5,7 @@ class Brick extends Element {
     constructor(scene, img, x, y) {
         super(scene, img, x, y, callback);
         this.alive = true;
+        this.hasItem = false;
         this.scene.livingBrick++;
         this.init();
     }
@@ -15,6 +16,16 @@ class Brick extends Element {
 
     update() {
 
+    }
+
+    /**
+     * 设置道具
+     */
+    setItem(item){
+        this.hasItem = true;
+        this.item = item;
+        this.item.x = this.x;
+        this.item.y = this.y;
     }
 
     draw() {
@@ -30,6 +41,9 @@ class Brick extends Element {
     die() {
         this.alive = false;
         this.scene.livingBrick--;
+        if(this.hasItem){
+            this.item.show();
+        }
         this.scene.game.score += 100;
         $('#game-score').text(this.scene.game.score);
         // this._remove();
