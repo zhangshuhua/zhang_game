@@ -11,12 +11,12 @@ $(function () {
 
         var paddle = new Paddle(mainScene,'img/paddle.png',250,383);
 
-        var ball = new Ball(mainScene,'img/ball.png',0,0);
+        var ball = new Ball(mainScene,'img/ball.png',0,380);
         mainScene.addElement(paddle).addElement(ball);
 
-        for(var i = 0;i<60;i++){
+        for(var i = 0;i<30;i++){
             var x = random(0,550);
-            var y = random(0,370);
+            var y = random(0,200);
             var index = parseInt(random(0,17));
             var path = 'img/brick' + index + '.png';
             var brick = new Brick(mainScene,path,x,y);

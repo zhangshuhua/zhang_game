@@ -2,7 +2,7 @@
  * Created by zsh7040 on 2017-8-31.
  */
 class Element {
-    constructor(scene, imgPath,x, y ,callback) {
+    constructor(scene, imgPath, x, y, callback) {
         this.scene = scene;
         this.x = x || 0;
         this.y = y || 0;
@@ -12,21 +12,21 @@ class Element {
         this.loadImg(imgPath);
     }
 
-    loadImg(imgPath){
+    loadImg(imgPath) {
         var _this = this;
         var img = new Image();
         img.src = imgPath;
         img.onload = function () {
-            _this.width = img.width ;
+            _this.width = img.width;
             _this.height = img.height;
             _this.callbackFunc(img);
         };
         this.img = img;
     }
 
-    callbackFunc(img){
-        if(typeof this.callback !== 'undefined'){
-            this.callback.call(this,img);
+    callbackFunc(img) {
+        if (typeof this.callback !== 'undefined') {
+            this.callback.call(this, img);
         }
     }
 
@@ -37,10 +37,10 @@ class Element {
      * @param key 按键
      * @param func 函数
      */
-    registerAction(type,key,func){
+    registerAction(type, key, func) {
         var _this = this;
-        document.addEventListener(type,function (event) {
-            if(event.key == key){
+        document.addEventListener(type, function (event) {
+            if (event.key == key) {
                 func.apply(_this);
             }
         });
@@ -50,7 +50,7 @@ class Element {
      * 运动状态中的判断事件
      * 抽象函数，子类覆盖
      */
-    update(){
+    update() {
 
     }
 
@@ -63,14 +63,21 @@ class Element {
         this.scene.context.drawImage(this.img, this.x, this.y);
     }
 
+    isCollidXWall() {
+        return this.x <= 0 || this.x + this.width >= this.scene.width;
+    }
 
+    isTouchTop() {
+        return this.y <= 0;
+    }
 
-    /**
-     * 该方法适合做final函数
-     */
-    rectCollided(other) {
-        return isCollisionWithRect(this.x,this.y,this.width,this.height,
-                    other.x,other.y,other.width,other.height);
+    isTouchBottom() {
+        return this.y + this.height >= this.scene.height;
+    }
+
+    collideRect(other) {
+        return isRectInRect(this.x, this.y, this.width, this.height,
+            other.x, other.y, other.width, other.height);
     }
 
 

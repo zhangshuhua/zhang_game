@@ -71,9 +71,8 @@ function Victor (x, y) {
 	 * @api public
 	 */
 	this.y = y || 0;
-};
-
-/**
+}
+    /**
  * # Static
  */
 
@@ -544,35 +543,6 @@ Victor.prototype.invert = function () {
 	this.invertY();
 	return this;
 };
-
-/**
- *
- * @returns {Victor}
- */
-Victor.prototype.abs = function () {
-        if(this.x<0){
-            this.x *= -1;
-        }
-        if(this.y<0){
-            this.y *= -1;
-        }
-        return this;
-    };
-
-
-    /**
-	 * 投影，保证正方向向量，去除负方向
-     * @returns {Victor}
-     */
-    Victor.prototype.shadow = function () {
-        if(this.x<0){
-            this.x = 0;
-        }
-        if(this.y<0){
-            this.y = 0;
-        }
-        return this;
-    };
 
 /**
  * Multiplies the X axis by X component of given vector

@@ -5,8 +5,8 @@ class Ball extends Element {
 
     constructor(scene, img, x, y) {
         super(scene, img, x, y);
-        this.speedX = 4;
-        this.speedY = 4;
+        this.speedX = -3;
+        this.speedY = -3;
         this.init();
     }
 
@@ -22,8 +22,7 @@ class Ball extends Element {
     update() {
         this.move();
         if (this.isTouchBottom()) {
-            // this.scene.game.over();
-            this.bounceY();
+            this.scene.game.over();
         } else {
             if (this.isTouchTop()) {
                 this.resetEdgeY();
@@ -46,11 +45,12 @@ class Ball extends Element {
     bounceX() {
         this.speedX *= -1;
     }
-    bounceXY(normal){
-       var inVec = new Victor(this.speedX,this.speedY);
-       var result = reflectVec(inVec,normal);
-       this.speedX = result.x;
-       this.speedY = result.y;
+
+    bounce(normal) {
+        var inVec = new Victor(this.speedX, this.speedY);
+        var result = reflectVec(inVec, normal);
+        this.speedX = result.x;
+        this.speedY = result.y;
     }
 
     resetEdgeX() {
@@ -65,24 +65,16 @@ class Ball extends Element {
         this.y = 0;
     }
 
-    isCollidXWall() {
-        return this.x <= 0 || this.x + this.width >= this.scene.width;
-    }
 
-    isTouchTop() {
-        return this.y <= 0;
-    }
-
-    isTouchBottom() {
-        return this.y + this.height >= this.scene.height;
-    }
 
     collidBrick(bricks) {
-        for (let b of bricks) {
+        //倒叙循环,保证重叠的砖块可以看出消失效果
+        for (var i = bricks.length - 1; i >= 0; i--) {
+            var b = bricks[i];
             if (b.alive) {
-                var angle = this.rectCollided(b);
-                if(angle){
-                    this.bounceXY(angle);
+                var normal = this.collideRect(b);
+                if (normal) {
+                    this.bounce(normal);
                     b.die();
                     break;
                 }
@@ -91,31 +83,19 @@ class Ball extends Element {
     }
 
     collidPaddle(paddles) {
-            var angle = this.rectCollided(paddles);
-            if (angle) {
-                this.bounceXY(angle);
+        var normal = this.collideRect(paddles);
+        if (normal) {
+            this.bounce(normal);
         }
     }
 
-    rectCollided(rect) {
-        var center = {
-            x: this.x + this.width / 2,
-            y: this.y + this.height / 2
-        };
-
-        var centerOfRect = {
-            x: rect.x + rect.width / 2,
-            y: rect.y + rect.height / 2,
-        };
-
-        var rightTopOfRect = {
-            x: rect.x + rect.width,
-            y: rect.y,
-        };
-
+    collideRect(rect) {
+        var w = rect.width;
+        var h = rect.height;
         var r = this.width / 2;
-
-        return circleInRect(centerOfRect, rightTopOfRect, center, r);
+        var rx = (this.x + r) - (rect.x + w / 2);
+        var ry = (this.y + r) - (rect.y + h / 2);
+        return ComputeCollision(w, h, r, rx, ry);
     }
 
 }

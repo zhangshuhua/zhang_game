@@ -18,20 +18,18 @@ class Bullet extends Element{
 
     update(){
         this.move();
-        if(this.isCollidTop()){
+        if(this.isTouchTop()){
             this.die();
         }else {
             this.collidBrick(this.scene.elements.brick);
         }
     }
 
-    isCollidTop(){
-        return this.y<=0;
-    }
-
     collidBrick(bricks){
-        for (var b of bricks){
-            if(this.rectCollided(b)&& b.alive){
+        //倒叙循环,保证重叠的砖块可以看出消失效果
+        for (var i = bricks.length - 1; i >= 0; i--) {
+            let b = bricks(i);
+            if(b.alive && this.collideRect(b)){
                 b.die();
                 this.die();
             }

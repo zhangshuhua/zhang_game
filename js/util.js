@@ -19,8 +19,8 @@ var random = function (min, max) {
  * 检测两个矩形是否碰撞
  * @return
  */
-var isCollisionWithRect = function (x1, y1, w1, h1,
-                                    x2, y2, w2, h2) {
+var isRectInRect = function (x1, y1, w1, h1,
+                             x2, y2, w2, h2) {
     if (x1 >= x2 && x1 >= x2 + w2) {
         return false;
     } else if (x1 <= x2 && x1 + w1 <= x2) {
@@ -51,27 +51,6 @@ var isCollisionWithRect = function (x1, y1, w1, h1,
  }
  };*/
 
-/**
- * 判断矩形与球形相撞，并计算法线
- * @param rectCenter    矩形中心 {array}
- * @param rectHalfD     矩形对角线的一半 {array}
- * @param circleCenter      圆形的圆心 {array}
- * @param r   园的半径 {float}
- */
-var circleInRect = function (rectCenter, rectRightTop, circleCenter, r) {
-    var rectCenterVec = Victor.fromObject(rectCenter);
-    var rectHalfDVec = Victor.fromObject(rectRightTop).subtract(rectCenterVec).abs();
-    var circleCenterVec = Victor.fromObject(circleCenter);
-    var v = circleCenterVec.subtract(rectCenterVec).abs();
-    var u = v.subtract(rectHalfDVec).shadow();
-    if (u.length() <= r) {
-        log('u角度为', u.angleDeg());
-        return u;
-    } else {
-        return false;
-    }
-}
-
 
 /**
  * 通过入射向量和法线向量，求出反射向量
@@ -79,19 +58,33 @@ var circleInRect = function (rectCenter, rectRightTop, circleCenter, r) {
  * @param normal  法线
  */
 var reflectVec = function (inVec, normal) {
-
     var vec1 = inVec;
+    //法线转为单位向量
     var vec2 = normal.normalize();
-    var a = vec1.dot(vec2)
+    var a = vec1.dot(vec2);
     var c = vec2.clone().multiplyScalar(2 * a);
-    return vec1.clone().subtract(c)
+    return vec1.subtract(c)
+};
 
+/**
+ * 矩形与圆形的碰撞检测
+ * @param w 矩形的宽度
+ * @param h 矩形的高度
+ * @param r 圆形的半径
+ * @param rx 矩形中心与圆形中心的X坐标的差
+ * @param ry 矩形中心与圆形中心的Y坐标的差
+ * @returns {*} 如果碰撞返回法线向量,如果没有碰撞返回false
+ * @constructor
+ */
+function ComputeCollision(w, h, r, rx, ry) {
+    var dx = Math.min(rx, w * 0.5);
+    var dx1 = Math.max(dx, -w * 0.5);
+    var dy = Math.min(ry, h * 0.5);
+    var dy1 = Math.max(dy, -h * 0.5);
+    if((dx1 - rx) * (dx1 - rx) + (dy1 - ry) * (dy1 - ry) <= r * r){
+        //返回法线向量
+        return new Victor(dx1 - rx,dy1 - ry);
+    }else {
+        return false;
+    }
 }
-
-// var vec1 = new Victor(Math.sqrt(2) / 2, -Math.sqrt(2) / 2);
-// var vec2 = new Victor(0, 1).normalize();
-// var a = vec1.dot(vec2)
-// var c = vec2.clone().multiplyScalar(2 * a);
-// var d = vec1.clone().subtract(c)
-
-// var a = new Vic
