@@ -13,8 +13,9 @@ class EndScene extends Scene{
         gradient.addColorStop("0.5","blue");
         gradient.addColorStop("1.0","red");
         this.context.fillStyle=gradient;
+        this.context.textAlign = "center";
         var score = this.game.score;
-        this.context.fillText("游戏结束，您最终的得分为"+score,90,200);
+        this.context.fillText("游戏结束，您最终的得分为"+score,300,200);
     }
 
 }

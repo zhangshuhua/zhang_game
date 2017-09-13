@@ -32,7 +32,7 @@ class MainScene extends Scene{
         this.game.level ++;
         $('#game-level').text(this.game.level);
 
-        for(var i = 0;i<30;i++){
+        for(var i = 0;i<3;i++){
             var x = random(0,550);
             var y = random(0,200);
             var index = parseInt(random(0,17));
@@ -44,11 +44,20 @@ class MainScene extends Scene{
 
     }
 
+    //noinspection JSAnnotator
     resetState(){
         if(this.elements.brick.length > 0){
             this.elements.brick.length = 0;
+            log(this.elements.brick)
         }
         //ball归位，应当在paddle中央
+        log(this.elements);
+        var ball = this.elements.ball[0];
+        var paddle = this.elements.paddle[0];
+        ball.x = paddle.x+ paddle.width/2 -ball.width/2;
+        ball.y = paddle.y - ball.height-1;
+        ball.speedX = -3;
+        ball.speedY = -3;
 
         //加快小球速度
         window.fps -= 2;

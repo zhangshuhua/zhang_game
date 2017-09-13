@@ -90,3 +90,34 @@ function ComputeCollision(w, h, r, rx, ry) {
         return false;
     }
 }
+
+/**
+ * 根据斜率求出过圆心的直线与圆的两个交点
+ * @param k 直线的斜率
+ * @param centerX 圆心横坐标
+ * @param centerY 圆心纵坐标
+ * @param r 圆半径
+ */
+function circleIntersection(k,centerX,centerY,r) {
+    //设直线为斜截式方程
+    var b = centerY - k*centerX;
+    //带入圆的方程,化为一元二次方程Ax*x + By + C =0;
+    var A = k*k+1;
+    var B = 2*centerX - 2*k*(b-centerY);
+    var C = centerX*centerX + (b-centerY)*(b-centerY) -r*r;
+
+    //通过一般式公式求方程
+    var tmp = Math.sqrt(B*B-4*A*C);
+    x1 = (B+tmp)/(2*A);
+    x2 = (B-tmp)/(2*A);
+    y1 = k*x1 + b;
+    y2 = k*x2 + b;
+
+    // var result = (x1-centerX)*(x1-centerX) + (y1-centerY)*(y1-centerY);
+    var result = {};
+    result.x1 = x1;
+    result.y1 = y1;
+    result.x2 = x2;
+    result.y2 = y2;
+    return result;
+}

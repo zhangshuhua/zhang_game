@@ -11,10 +11,10 @@ $(function () {
 
         var paddle = new Paddle(mainScene,'img/paddle.png',250,383);
 
-        var ball = new Ball(mainScene,'img/ball.png',0,380);
+        var ball = new Ball(mainScene,'img/ball.png',0,0);
         mainScene.addElement(paddle).addElement(ball);
         var item = new Item(mainScene,'img/item_gun.png',0,0);
-        for(var i = 0;i<30;i++){
+        for(var i = 0;i<10;i++){
             var x = random(0,550);
             var y = random(0,200);
             var index = parseInt(random(0,17));
@@ -26,9 +26,9 @@ $(function () {
         var item_gun = new ItemGun(mainScene,null,0,0);
         var item_long = new ItemLong(mainScene,null,0,0);
         var item_short = new ItemShort(mainScene,null,0,0);
-        mainScene.elements.brick[10].setItem(item_gun);
-        mainScene.elements.brick[11].setItem(item_long);
-        mainScene.elements.brick[12].setItem(item_short);
+        mainScene.elements.brick[0].setItem(item_gun);
+        mainScene.elements.brick[1].setItem(item_long);
+        mainScene.elements.brick[2].setItem(item_short);
 
         var bg = new Image();
         bg.src = 'img/backgroud.jpg';
@@ -43,12 +43,12 @@ $(function () {
 
     var start = function (game) {
         if(!game.pause){
-            if(game.scene.background){
-                //TODO 不需要每次都去重新画
-                game.context.drawImage(game.scene.background,0,0);
-            }else {
+            // if(game.scene.background){
+            //     //TODO 不需要每次都去重新画
+            //     game.context.drawImage(game.scene.background,0,0);
+            // }else {
                 game.context.clearRect(0,0,600,400);
-            }
+            // }
             game.scene.draw();
 
         }
