@@ -7,7 +7,7 @@ class Ball extends Element {
         super(scene, img, x, y,function (img) {
             this.r = img.width/2;
         });
-        this.speedX = 3;
+        this.speedX = -3;
         this.speedY = 3;
 
         //最后一次的碰撞点
@@ -115,6 +115,10 @@ class Ball extends Element {
      * @param stressDirection 受力方向=加速度方向=碰撞前后速度差
      */
     reLocation(rect,stressDirection){
+        if(stressDirection.x===0&&stressDirection.y===0){
+            this.lastCollid.x = this.x;
+            this.lastCollid.y = this.y
+        }
         if(stressDirection.x<0){
             this.x = rect.x - this.width;
             this.lastCollid.x = rect.x;

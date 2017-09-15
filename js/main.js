@@ -11,7 +11,7 @@ $(function () {
 
         var paddle = new Paddle(mainScene,'img/paddle.png',100,100);
 
-        var ball = new Ball(mainScene,'img/ball.png',0,0);
+        var ball = new Ball(mainScene,'img/ball.png',584,0);
         mainScene.addElement(paddle).addElement(ball);
         var item = new Item(mainScene,'img/item_gun.png',0,0);
         for(var i = 0;i<10;i++){

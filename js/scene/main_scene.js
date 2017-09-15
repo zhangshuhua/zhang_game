@@ -32,7 +32,7 @@ class MainScene extends Scene{
         this.game.level ++;
         $('#game-level').text(this.game.level);
 
-        for(var i = 0;i<3;i++){
+        for(var i = 0;i<30;i++){
             var x = random(0,550);
             var y = random(0,200);
             var index = parseInt(random(0,17));
@@ -41,6 +41,12 @@ class MainScene extends Scene{
 
             this.addElement(brick);
         }
+        var item_gun = new ItemGun(this,null,0,0);
+        var item_long = new ItemLong(this,null,0,0);
+        var item_short = new ItemShort(this,null,0,0);
+        this.elements.brick[2].setItem(item_short);
+        this.elements.brick[1].setItem(item_long);
+        this.elements.brick[0].setItem(item_gun);
 
     }
 
