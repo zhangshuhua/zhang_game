@@ -34,25 +34,6 @@ var isRectInRect = function (x1, y1, w1, h1,
 };
 
 /**
- * 预加载图片
- */
-/*var imagePreLoader = function(imagePaths,callback){
- let imgLoads = [];
- for(let imgPath of imagePaths){
- let img = new Image();
- img.src = imgPath;
- img.onload = function () {
- imgLoads.push(img);
- if(imgLoads.length === imagePaths.length){
- callback;
- }
- return imgLoads;
- }
- }
- };*/
-
-
-/**
  * 通过入射向量和法线向量，求出反射向量
  * @param inVec 入射角
  * @param normal  法线
@@ -61,10 +42,10 @@ var reflectVec = function (inVec, normal) {
     var vec1 = inVec.clone();
     //法线转为单位向量
     var vec2 = normal.normalize();
+    //点积
     var a = vec1.dot(vec2);
     var c = vec2.clone().multiplyScalar(2 * a);
-    let victor = vec1.subtract(c);
-    return victor
+    return vec1.subtract(c)
 };
 
 /**
@@ -84,9 +65,7 @@ function ComputeCollision(w, h, r, rx, ry) {
     var dy1 = Math.max(dy, -h * 0.5);
     if((dx1 - rx) * (dx1 - rx) + (dy1 - ry) * (dy1 - ry) <= r * r){
         //返回法线向量
-        var u = new Victor(dx1 - rx,dy1 - ry);
-        // log('法线',u);
-        return u
+        return new Victor(dx1 - rx, dy1 - ry)
     }else {
         return false;
     }
@@ -109,61 +88,54 @@ function circleIntersection(k,centerX,centerY,r) {
 
     //通过一般式公式求方程
     var tmp = Math.sqrt(B*B-4*A*C);
-    x1 = (B+tmp)/(2*A);
-    x2 = (B-tmp)/(2*A);
-    y1 = k*x1 + b;
-    y2 = k*x2 + b;
+    //两点的x
+    var x1 = (B+tmp)/(2*A);
+    var x2 = (B-tmp)/(2*A);
+    //两点的y
+    var y1 = k*x1 + b;
+    var y2 = k*x2 + b;
 
-    // var result = (x1-centerX)*(x1-centerX) + (y1-centerY)*(y1-centerY);
-    var result = {};
-    result.x1 = x1;
-    result.y1 = y1;
-    result.x2 = x2;
-    result.y2 = y2;
+    var result = {
+        point1:{},
+        point2:{}
+    };
+    result.point1.x = x1;
+    result.point1.y = y1;
+    result.point2.x = x2;
+    result.point2.y = y2;
     return result;
 }
 
 /**
- * 根据法线和交点求镜面
- * @param normal
- * @param point
- * @return {*} 一元一次方程标准式参数对象;  Ax+By+c=0;
+ * 点斜式方程转一般式方程
+ * @param k 斜率
+ * @param point 一个点
+ * @return {{}}
  */
-function mirror(normal, point) {
-    // log('normal',normal);
+function pointSlopeToNormal(k,point) {
     var result ={};
-    if(normal.x===0 && normal.y!==0){
-        result.A = 0;
-        result.B = 1;
-        result.C = -point.y;
-    }
-    if(normal.x!==0 && normal.y===0 ){
+    if(isFinite(k)){
+        result.A = k;
+        result.B = -1;
+        result.C = point.y-k*point.x;
+        log(result);
+    }else {
         result.A = 1;
         result.B = 0;
         result.C = -point.x;
     }
-    if(normal.x!==0&&normal.y!==0){
-        // var k = -normal.x/normal.y;
-        // result.A = k;
-        // result.B = -1;
-        // result.C = point.y-k*point.x;
-        result.A = -normal.x;
-        result.B = -normal.y;
-        result.C = point.y*normal.y+normal.x*point.x;
-    }
-    // log('result',result);
     return result;
 }
 
-function pointSlopeToNormal(k,point) {
-    var result ={};
-    result.A = k;
-    result.B = -1;
-    result.C = point.y-k*point.x;
-    return result;
-}
-
-function twoPointToNormal(x1,y1,x2,y2) {
+/**
+ * 两点式转一般式
+ * @param x1
+ * @param y1
+ * @param x2
+ * @param y2
+ * @return {{}}
+ */
+function twoPointToNormal(x1, y1, x2, y2) {
     var result = {};
     result.A = y2-y1;
     result.B = x1-x2;
@@ -171,6 +143,12 @@ function twoPointToNormal(x1,y1,x2,y2) {
     return result;
 }
 
+/**
+ * 两直线交点
+ * @param arg1
+ * @param arg2
+ * @return {{}}
+ */
 function twoLineInterPoint(arg1,arg2) {
     var result = {};
     result.x = (arg1.B*arg2.C-arg2.B*arg1.C)/(arg1.A*arg2.B-arg2.A*arg1.B);
@@ -178,6 +156,12 @@ function twoLineInterPoint(arg1,arg2) {
     return result;
 }
 
+/**
+ * 点关于直线的对称点
+ * @param lineArgs
+ * @param point
+ * @return {{}}
+ */
 function symmetryPoint(lineArgs,point) {
     var result = {};
     var tmp = (lineArgs.A*point.x+lineArgs.B*point.y+lineArgs.C)/(lineArgs.A*lineArgs.A+lineArgs.B*lineArgs.B);
@@ -187,6 +171,15 @@ function symmetryPoint(lineArgs,point) {
 
 }
 
+
+/**
+ * 判断线段ab与线段cd是否相交
+ * @param a
+ * @param b
+ * @param c
+ * @param d
+ * @return {*}
+ */
 function segmentsIntr(a, b, c, d){
 
     // 三角形abc 面积的2倍

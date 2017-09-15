@@ -15,7 +15,7 @@ $(function () {
         // var ball = new Ball(mainScene,'img/ball.png',100,100);
         mainScene.addElement(paddle).addElement(ball);
         var item = new Item(mainScene,'img/item_gun.png',0,0);
-        for(var i = 0;i<3;i++){
+        for(var i = 0;i<10;i++){
             var x = random(0,550);
             var y = random(0,200);
             var index = parseInt(random(0,17));
