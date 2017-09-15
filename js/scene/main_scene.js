@@ -48,10 +48,8 @@ class MainScene extends Scene{
     resetState(){
         if(this.elements.brick.length > 0){
             this.elements.brick.length = 0;
-            log(this.elements.brick)
         }
         //ball归位，应当在paddle中央
-        log(this.elements);
         var ball = this.elements.ball[0];
         var paddle = this.elements.paddle[0];
         ball.x = paddle.x+ paddle.width/2 -ball.width/2;

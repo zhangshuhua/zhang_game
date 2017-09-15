@@ -7,9 +7,6 @@ class Paddle extends Element {
         super(scene, img, x, y, function(img) {
             this.x = (this.scene.width - img.width)/2;
             this.y = this.scene.height - img.height;
-            //dubug
-            this.width = 600;
-            this.x = 0;
         });
         this.speed = 15;
 
@@ -159,7 +156,6 @@ class Paddle extends Element {
     }*/
 
     enLong() {
-        log(this.width);
         if (this.width < this.scene.width) {
             this.width = this.width + 30;
             //保证中心不变

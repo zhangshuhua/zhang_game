@@ -12,7 +12,6 @@ $(function () {
         var paddle = new Paddle(mainScene,'img/paddle.png',100,100);
 
         var ball = new Ball(mainScene,'img/ball.png',0,0);
-        // var ball = new Ball(mainScene,'img/ball.png',100,100);
         mainScene.addElement(paddle).addElement(ball);
         var item = new Item(mainScene,'img/item_gun.png',0,0);
         for(var i = 0;i<10;i++){
@@ -44,12 +43,12 @@ $(function () {
 
     var start = function (game) {
         if(!game.pause){
-            // if(game.scene.background){
-            //     //TODO 不需要每次都去重新画
-            //     game.context.drawImage(game.scene.background,0,0);
-            // }else {
+            if(game.scene.background){
+                //TODO 不需要每次都去重新画
+                game.context.drawImage(game.scene.background,0,0);
+            }else {
                 game.context.clearRect(0,0,600,400);
-            // }
+            }
             game.scene.draw();
 
         }

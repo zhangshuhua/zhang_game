@@ -118,7 +118,6 @@ function pointSlopeToNormal(k,point) {
         result.A = k;
         result.B = -1;
         result.C = point.y-k*point.x;
-        log(result);
     }else {
         result.A = 1;
         result.B = 0;
