@@ -7,6 +7,9 @@ class Paddle extends Element {
         super(scene, img, x, y, function(img) {
             this.x = (this.scene.width - img.width)/2;
             this.y = this.scene.height - img.height;
+            //dubug
+            this.width = 600;
+            this.x = 0;
         });
         this.speed = 15;
 
@@ -29,14 +32,14 @@ class Paddle extends Element {
     }
 
     initGun() {
-        this.leftGun = new Gun(this.scene, 'img/gun.png', 0, 0);
-        this.rightGun = new Gun(this.scene, 'img/gun.png', 0, 0);
+        this.leftGun = new Gun(this.scene, 'img/gun.png');
+        this.rightGun = new Gun(this.scene, 'img/gun.png');
     }
 
-    setAutoShoot() {
+    /*setAutoShoot() {
         this.leftGun.setAuto();
         this.rightGun.setAuto();
-    }
+    }*/
 
 
     update() {
@@ -55,8 +58,8 @@ class Paddle extends Element {
 
     autoShoot() {
         if (this.leftGun.show && this.leftGun.auto) {
-            this.leftGun.autoFire();
-            this.rightGun.autoFire();
+            this.leftGun.fire();
+            this.rightGun.fire();
         }
     }
 
@@ -79,9 +82,8 @@ class Paddle extends Element {
         this.registerAction('keydown', 'ArrowRight', this.move_right);
         this.registerAction('keydown', '+', this.speedUp);
         this.registerAction('keydown', '-', this.speedDown);
-        this.registerAction('keydown', 'ArrowUp', this.toggleGuns);
+        this.registerAction('keydown', 'ArrowUp', this.addGuns);
         this.registerAction('keydown', 'ArrowDown', this.removeGuns);
-        this.registerAction('keydown', 'Enter', this.shoot);
         this.registerAction('keydown', '0', this.enLong);
         this.registerAction('keydown', '9', this.enShort);
     }
@@ -112,24 +114,20 @@ class Paddle extends Element {
 
     addLeftGun() {
         this.leftGun.offsetX = -49;
-        // this.leftGun.offsetY = 2;
         this.leftGun.show = true;
     };
 
     addRightGun() {
         this.rightGun.offsetX = 35;
-        // this.rightGun.offsetY = 2;
         this.rightGun.show = true;
     };
 
     removeLeftGun() {
         this.leftGun.show = false;
-        // this.leftGun.auto = false;
     };
 
     removeRightGun() {
         this.rightGun.show = false;
-        // this.rightGun.auto = false
     };
 
 
@@ -145,22 +143,23 @@ class Paddle extends Element {
         this.removeRightGun();
     }
 
-    toggleGuns() {
+    /*toggleGuns() {
         if (this.leftGun.show) {
             this.setAutoShoot();
         } else {
             this.addGuns()
         }
-    }
+    }*/
 
-    shoot() {
+    /*shoot() {
         if (this.leftGun.show) {
             this.leftGun.fire();
             this.rightGun.fire();
         }
-    }
+    }*/
 
     enLong() {
+        log(this.width);
         if (this.width < this.scene.width) {
             this.width = this.width + 30;
             //保证中心不变

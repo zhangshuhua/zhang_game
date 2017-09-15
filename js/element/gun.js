@@ -2,8 +2,8 @@
  * Created by zhang on 2017/9/3.
  */
 class Gun extends Element {
-    constructor(scene, img, x, y, callback) {
-        super(scene, img, x, y, callback);
+    constructor(scene, img, x, y) {
+        super(scene, img, x, y);
         this.CDTime = this.CDTime||15;
         this.show = false;
         this.auto = true;
@@ -12,9 +12,8 @@ class Gun extends Element {
     }
 
     init() {
-        //new Gun的时候,创建bullet对象待用
-        this.bullet = new Bullet(this.scene, 'img/bullet.png', 0, 0);
-        this.scene.addElement(this.bullet);
+        //new Gun的时候,在bullet对象
+        this.bullet = new Bullet(this.scene, 'img/bullet.png');
         this.resetCDtime();
     }
 
@@ -22,22 +21,23 @@ class Gun extends Element {
         this.CDTime = 15;
     }
 
-    fire() {
-        this.bullet.x = this.x + this.width/2;
+    shoot() {
+        this.bullet.x = this.x + (this.width-this.bullet.width)/2;
         this.bullet.y = this.y;
         this.scene.addElement(this.bullet);
     }
 
     // 自动射击
-    autoFire(){
+    fire(){
         this.CDTime--;
         if(this.CDTime<=0){
-            this.fire();
+            this.shoot();
             this.resetCDtime();
         }
     }
 
-    setAuto(){
+    //自动开火
+    /*setAuto(){
         this.auto = true;
-    }
+    }*/
 }

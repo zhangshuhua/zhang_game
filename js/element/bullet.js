@@ -2,8 +2,8 @@
  * Created by zsh7040 on 2017-8-31.
  */
 class Bullet extends Element{
-    constructor(scene, img, x, y,callback) {
-        super(scene, img, x, y,callback);
+    constructor(scene, img, x, y) {
+        super(scene, img, x, y);
         this.speed  = 15;
         this.init();
     }
@@ -42,6 +42,7 @@ class Bullet extends Element{
 
     /**
      * 在scene的元素中移除
+     * 子弹太多需要remove
      */
     _remove(){
         var bullets = this.scene.elements.bullet;
