@@ -178,19 +178,20 @@ class Ball extends Element {
         // log('圆的顶点',this.trailPoints);
         this.changeTrailPoint();
         if(this.colliding){
-            log(this.lastCollid.normal);
+            // log(this.lastCollid.normal);
+
 
             var mirrorArgs = mirror(this.lastCollid.normal,this.lastCollid);
             var line1Args = twoPointToNormal(this.trailPoints.x1,this.trailPoints.y1,this.trailPoints.linePointX,this.trailPoints.linePointY);
             var line2Args = twoPointToNormal(this.trailPoints.x2,this.trailPoints.y2,this.trailPoints.linePointX,this.trailPoints.linePointY);
-            log('反射面',mirrorArgs);
-            log('直线1=',line1Args);
-            log('直线2=',line2Args);
+            // log('反射面',mirrorArgs);
+            // log('直线1=',line1Args);
+            // log('直线2=',line2Args);
 
             var point1 = twoLineInterPoint(line1Args,mirrorArgs);
             var point2 = twoLineInterPoint(line2Args,mirrorArgs);
-            log('交点1=',point1);
-            log('交点2=',point2);
+            // log('交点1=',point1);
+            // log('交点2=',point2);
             var a = {
                 x:this.x + r,
                 y:this.y + r
@@ -201,12 +202,12 @@ class Ball extends Element {
                 // x:this.trailPoints.curvePointX,
                 // y:this.trailPoints.curvePointY
             };
-            log('b',b);
+            // log('b',b);
             if(segmentsIntr(a,b,point1,point2)){
-                log('小球圆心=',a);
-                log('尾巴顶点=',b);
-                log('交点1=',point1);
-                log('交点2=',point2);
+                // log('小球圆心=',a);
+                // log('尾巴顶点=',b);
+                // log('交点1=',point1);
+                // log('交点2=',point2);
                 this.showBounceTrail(mirrorArgs,point1,point2);
             }else {
                 this.colliding = false;

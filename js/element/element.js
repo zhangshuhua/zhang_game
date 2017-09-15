@@ -47,7 +47,7 @@ class Element {
     }
 
     /**
-     * 运动状态中的判断事件
+     * 需要自动运动的元素的运行方法
      * 抽象函数，子类覆盖
      */
     update() {
@@ -75,6 +75,10 @@ class Element {
         return this.y + this.height >= this.scene.height;
     }
 
+    /**
+     * 默认element为矩形
+     * @param other 另外一个矩形
+     */
     collideRect(other) {
         return isRectInRect(this.x, this.y, this.width, this.height,
             other.x, other.y, other.width, other.height);

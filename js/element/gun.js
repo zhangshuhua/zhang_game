@@ -7,7 +7,7 @@ class Gun extends Element {
         this.CDTime = this.CDTime||15;
         this.show = false;
         this.auto = true;
-        this.bullet;
+        this.bullet = {};
         this.init();
     }
 

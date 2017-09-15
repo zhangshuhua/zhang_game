@@ -3,8 +3,12 @@
  */
 class Brick extends Element {
     constructor(scene, img, x, y) {
-        super(scene, img, x, y, callback);
+        super(scene, img, x, y, function (img) {
+            this.x = (Math.floor(this.x / img.width)) * img.width;
+            this.y = (Math.floor(this.y / img.height)) * img.height;
+        });
         this.alive = true;
+        //砖块中藏有道具
         this.hasItem = false;
         this.scene.livingBrick++;
         this.init();
@@ -24,8 +28,9 @@ class Brick extends Element {
     setItem(item){
         this.hasItem = true;
         this.item = item;
-        this.item.x = this.x;
-        this.item.y = this.y;
+        //道具居中
+        this.item.x = this.x+(this.width-item.width)/2;
+        this.item.y = this.y+(this.height-item.height)/2;
     }
 
     draw() {
@@ -36,7 +41,7 @@ class Brick extends Element {
     }
 
     /**
-     * 被击中
+     * 被打中
      */
     die() {
         this.alive = false;
@@ -62,12 +67,3 @@ class Brick extends Element {
 
 }
 
-/**
- * brick 回调函数
- * 网格对齐显示，有一些时候会有多个brick重叠
- * @param img brick.png
- */
-function callback(img) {
-    this.x = (Math.floor(this.x / img.width)) * img.width;
-    this.y = (Math.floor(this.y / img.height)) * img.height;
-}

@@ -3,14 +3,15 @@
  */
 class ItemLong extends Item{
     constructor(scene, img, x, y) {
-        super(scene, 'img/item_long.png', x, y, callback);
+        super(scene, 'img/item_long.png', x, y);
         this.init();
     }
 
-    die(){
+    effect(){
         if(this.utility){
             this.scene.elements.paddle[0].enLong();
         }
-        this.afterDie();
+        this.afterEffect();
     }
+
 }

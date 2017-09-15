@@ -85,7 +85,7 @@ function ComputeCollision(w, h, r, rx, ry) {
     if((dx1 - rx) * (dx1 - rx) + (dy1 - ry) * (dy1 - ry) <= r * r){
         //返回法线向量
         var u = new Victor(dx1 - rx,dy1 - ry);
-        log('法线',u);
+        // log('法线',u);
         return u
     }else {
         return false;
@@ -130,7 +130,7 @@ function circleIntersection(k,centerX,centerY,r) {
  * @return {*} 一元一次方程标准式参数对象;  Ax+By+c=0;
  */
 function mirror(normal, point) {
-    log('normal',normal);
+    // log('normal',normal);
     var result ={};
     if(normal.x===0 && normal.y!==0){
         result.A = 0;
@@ -151,7 +151,7 @@ function mirror(normal, point) {
         result.B = -normal.y;
         result.C = point.y*normal.y+normal.x*point.x;
     }
-    log('result',result);
+    // log('result',result);
     return result;
 }
 

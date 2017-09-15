@@ -4,7 +4,10 @@
  */
 class Item extends Element{
     constructor(scene, img, x, y) {
-        super(scene, img, x, y, callback);
+        super(scene, img, x, y, function (img) {
+            this.x = (Math.floor(this.x / img.width)) * img.width;
+            this.y = (Math.floor(this.y / img.height)) * img.height;
+        });
         this.speed = 2;
         this.utility = true;
         this.init();
@@ -21,7 +24,7 @@ class Item extends Element{
     update(){
         this.move();
         if(this.collideRect(this.scene.elements.paddle[0])){
-            this.die();
+            this.effect();
         }
     }
 
@@ -37,19 +40,14 @@ class Item extends Element{
     }
 
     /**
-     * TODO 名字需要再想,不能为die
-     * after die
+     * 加上道具之后
      */
-    afterDie() {
+    afterEffect() {
         this.utility = false;
+        //如果有失效的话,延迟6s实现
+        if(this.loseEffect){
+            this.loseEffect();
+        }
     }
-}
-/**
- * item 回调函数
- * 网格对齐显示，与brick重叠
- * @param img brick.png
- */
-function callback(img) {
-    this.x = (Math.floor(this.x / img.width)) * img.width;
-    this.y = (Math.floor(this.y / img.height)) * img.height;
+
 }

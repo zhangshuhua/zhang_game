@@ -3,14 +3,16 @@
  */
 class ItemShort extends Item{
     constructor(scene, img, x, y) {
-        super(scene, 'img/item_short.png', x, y, callback);
+        super(scene, 'img/item_short.png', x, y);
         this.init();
     }
 
-    die(){
+    effect(){
         if(this.utility){
             this.scene.elements.paddle[0].enShort();
         }
-        this.afterDie();
+        this.afterEffect();
     }
+
+
 }

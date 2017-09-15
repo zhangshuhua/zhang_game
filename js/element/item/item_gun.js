@@ -3,14 +3,21 @@
  */
 class ItemGun extends Item{
     constructor(scene, img, x, y) {
-        super(scene, 'img/item_gun.png', x, y, callback);
+        super(scene, 'img/item_gun.png', x, y);
         this.init();
     }
 
-    die(){
+    effect(){
         if(this.utility){
             this.scene.elements.paddle[0].addGuns();
         }
-        this.afterDie();
+        this.afterEffect();
+    }
+
+    loseEffect(){
+        var _this = this;
+        setTimeout(function () {
+            _this.scene.elements.paddle[0].removeGuns();
+        },6*1000);
     }
 }
